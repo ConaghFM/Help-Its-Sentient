@@ -5,6 +5,7 @@
 //Global Variables
 int whiteCount = 0; //stores total sum of white pixels for each iteration of read_camera
 int lastIr = 0; //stores last reading from read_ir for use in PID algorithm
+bool go = true;
 
 
 int read_cam(int row){
@@ -63,7 +64,7 @@ double pid(double inNear,double inFar){ //call pid passing error signal as input
 	//errNew=input;
 	//sleep1(0, 001); //this MUST equal dt
 
-while(true){
+while(go){
 	errTotal += inNear; // adds input to total - used inNear, this could change
 	i++; 
 	diff = ((inNear-inFar)/2)*dGain; //change from errNear to errFar * gain
@@ -85,30 +86,40 @@ int main(){
 	double errPID;
 	int driveLeft;
 	int driveRight;
+	last_IR;
 	
 	while(true){
 	//cam = set_mode()
 		/* if(whiteCount<3){
 		 * 	if(cam==true){
-		 * 	panic_tape(); // dead end on tape maneouver
-		 * 	}
+		 * 		panic_tape(); // dead end on tape maneouver
+		 * 		}
 		 * 	else{
-		 * 	panic_wall();
-		 * 	}
+		 * 		panic_wall();
+		 * 		}
 		 * }
 		 * if(whiteCount>212 && errNear<0){ //212 is 2/3rds of frame width, errNear check is to ensure there is in fact a left hand branch
-		 * turnLeft(); 
-		 * }
+		 * 	turnLeft(); 
+		 * 	}
 		 * else if(whiteCount>212 && errNear>0 && check_forward()==false){ //only right hand turn is possible
-		 * turnRight();
-		 * }
+		 * 	turnRight();
+		 * 	}
 		**/
 		if(cam==true){
 			errNear = read_cam(160);
 			errFar = read_cam(80);
 		}
 		else{
-			//read_ir(); //write processes for this
+			/* 
+			 * if(last_IR==null){
+			 *  	last_IR = read_ir()
+			 * 	}
+			 * errFar = lastIR;
+			 * sleep1(0, 05); // waits 50ms before taking second reading
+			 * errNear = read_ir(); 
+			 * lastIR = errNear;
+			 * 
+			**/
 		}
 	errPID = pid(errNear,errFar);
 	driveLeft = scale_pid(errPID, 0.95); // tune gain L
