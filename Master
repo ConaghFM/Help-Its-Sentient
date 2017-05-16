@@ -3,7 +3,8 @@
 #include "E101.h" //this is our custom ENGR101 C library.
 
 //Global Variables
-int whiteCount = 0;
+int whiteCount = 0; //stores total sum of white pixels for each iteration of read_camera
+int lastIr = 0; //stores last reading from read_ir for use in PID algorithm
 
 
 int read_cam(int row){
@@ -88,10 +89,18 @@ int main(){
 	while(true){
 	//cam = set_mode()
 		/* if(whiteCount<3){
-		 * panic();
+		 * 	if(cam==true){
+		 * 	panic_tape(); // dead end on tape maneouver
+		 * 	}
+		 * 	else{
+		 * 	panic_wall();
+		 * 	}
 		 * }
-		 * if(whiteCount>212){ //212 is 2/3rds of frame width
-		 * turnLeft();
+		 * if(whiteCount>212 && errNear<0){ //212 is 2/3rds of frame width, errNear check is to ensure there is in fact a left hand branch
+		 * turnLeft(); 
+		 * }
+		 * else if(whiteCount>212 && errNear>0 && check_forward()==false){ //only right hand turn is possible
+		 * turnRight();
 		 * }
 		**/
 		if(cam==true){
