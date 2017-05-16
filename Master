@@ -64,16 +64,16 @@ double pid(double inNear,double inFar){ //call pid passing error signal as input
 	//errNew=input;
 	//sleep1(0, 001); //this MUST equal dt
 
-while(go){
-	errTotal += inNear; // adds input to total - used inNear, this could change
-	i++; 
-	diff = ((inNear-inFar)/2)*dGain; //change from errNear to errFar * gain
-	integ = ((errTotal)/i)*iGain; //average err * time step * gain
-	//sleep1(0, 001); //this MUST equal dt
-	prop = inNear*pGain; //Calculate proportional err - used inNear, this could change
-	PID = prop+diff+integ; //Sum components
-	return PID;
-}
+	while(true){
+		errTotal += inNear; // adds input to total - used inNear, this could change
+		i++; 
+		diff = ((inNear-inFar)/2)*dGain; //change from errNear to errFar * gain
+		integ = ((errTotal)/i)*iGain; //average err * time step * gain
+		//sleep1(0, 001); //this MUST equal dt
+		prop = inNear*pGain; //Calculate proportional err - used inNear, this could change
+		PID = prop+diff+integ; //Sum components
+		return PID;
+	}
 }
 
 
@@ -88,7 +88,7 @@ int main(){
 	int driveRight;
 	last_IR;
 	
-	while(true){
+	while(go){
 	//cam = set_mode()
 		/* if(whiteCount<3){
 		 * 	if(cam==true){
